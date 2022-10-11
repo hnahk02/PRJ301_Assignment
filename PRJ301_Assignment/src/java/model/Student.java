@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Acer
@@ -14,6 +16,17 @@ public class Student {
     private String surname;
     private String middle_name;
     private String given_name;
+    private ArrayList<StudentGroup> studentgroup = new ArrayList<>();
+
+    public ArrayList<StudentGroup> getStudentgroup() {
+        return studentgroup;
+    }
+
+    public void setStudentgroup(ArrayList<StudentGroup> studentgroup) {
+        this.studentgroup = studentgroup;
+    }
+
+   
 
     public Student() {
     }
@@ -26,6 +39,7 @@ public class Student {
         this.given_name = given_name;
     }
 
+  
     public String getCode() {
         return code;
     }

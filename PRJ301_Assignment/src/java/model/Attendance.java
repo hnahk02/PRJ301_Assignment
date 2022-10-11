@@ -10,17 +10,12 @@ import java.util.ArrayList;
  *
  * @author Acer
  */
-public class TimeSlot {
+public class Attendance {
     private int id;
-    private String time_range;
+    private boolean status;
     private ArrayList<Session> sessions = new ArrayList<>();
 
-    public TimeSlot() {
-    }
-
-    public TimeSlot(int id, String time_range) {
-        this.id = id;
-        this.time_range = time_range;
+    public Attendance() {
     }
 
     public ArrayList<Session> getSessions() {
@@ -31,6 +26,11 @@ public class TimeSlot {
         this.sessions = sessions;
     }
 
+    public Attendance(int id, boolean status) {
+        this.id = id;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }
@@ -39,12 +39,12 @@ public class TimeSlot {
         this.id = id;
     }
 
-    public String getTime_range() {
-        return time_range;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setTime_range(String time_range) {
-        this.time_range = time_range;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
     

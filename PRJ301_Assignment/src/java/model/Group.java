@@ -13,46 +13,28 @@ import java.util.ArrayList;
 public class Group {
     private int group_id;
     private String group_name;
-    private int lecturer_id;
-    private int session_id;
-    private int subject_id;
-    private ArrayList<Subject> subjects = new ArrayList<>();
-    private ArrayList<Lecturer> lecturers = new ArrayList<>();
-    private ArrayList<Session> sessions = new ArrayList<>();
+    private Session session;
+    private Lecturer lecturer;
+    private Subject subject;
+    private ArrayList<StudentGroup> studentgroup = new ArrayList<>();
 
     public Group() {
     }
 
-    public Group(int group_id, String group_name, int lecturer_id, int session_id, int subject_id) {
+    public ArrayList<StudentGroup> getStudentgroup() {
+        return studentgroup;
+    }
+
+    public void setStudentgroup(ArrayList<StudentGroup> studentgroup) {
+        this.studentgroup = studentgroup;
+    }
+
+    public Group(int group_id, String group_name, Session session, Lecturer lecturer, Subject subject) {
         this.group_id = group_id;
         this.group_name = group_name;
-        this.lecturer_id = lecturer_id;
-        this.session_id = session_id;
-        this.subject_id = subject_id;
-    }
-
-    public ArrayList<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(ArrayList<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
-    public ArrayList<Lecturer> getLecturers() {
-        return lecturers;
-    }
-
-    public void setLecturers(ArrayList<Lecturer> lecturers) {
-        this.lecturers = lecturers;
-    }
-
-    public ArrayList<Session> getSessions() {
-        return sessions;
-    }
-
-    public void setSessions(ArrayList<Session> sessions) {
-        this.sessions = sessions;
+        this.session = session;
+        this.lecturer = lecturer;
+        this.subject = subject;
     }
 
     public int getGroup_id() {
@@ -71,29 +53,32 @@ public class Group {
         this.group_name = group_name;
     }
 
-    public int getLecturer_id() {
-        return lecturer_id;
+    public Session getSession() {
+        return session;
     }
 
-    public void setLecturer_id(int lecturer_id) {
-        this.lecturer_id = lecturer_id;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
-    public int getSession_id() {
-        return session_id;
+    public Lecturer getLecturer() {
+        return lecturer;
     }
 
-    public void setSession_id(int session_id) {
-        this.session_id = session_id;
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
     }
 
-    public int getSubject_id() {
-        return subject_id;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubject_id(int subject_id) {
-        this.subject_id = subject_id;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
     
     
+    
+    
+   
 }

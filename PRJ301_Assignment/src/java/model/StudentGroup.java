@@ -11,24 +11,34 @@ import java.util.ArrayList;
  * @author Acer
  */
 public class StudentGroup {
-    private ArrayList<Student> students = new ArrayList<>();
-    private ArrayList<Group> groups = new ArrayList<>();
+    private Group group;
+    private Student student;
 
-    public ArrayList<Student> getStudents() {
-        return students;
+    public StudentGroup() {
     }
 
-    public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+    public StudentGroup(Group group, Student student) {
+        this.group = group;
+        this.student = student;
+    }
+    
+
+    public Group getGroup() {
+        return group;
     }
 
-    public ArrayList<Group> getGroups() {
-        return groups;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
-    public void setGroups(ArrayList<Group> groups) {
-        this.groups = groups;
+    public Student getStudent() {
+        return student;
     }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    
     
     
 }

@@ -10,18 +10,10 @@ import java.util.ArrayList;
  *
  * @author Acer
  */
-public class TimeSlot {
-    private int id;
-    private String time_range;
+public class Room {
+    private int room_id;
+    private String name;
     private ArrayList<Session> sessions = new ArrayList<>();
-
-    public TimeSlot() {
-    }
-
-    public TimeSlot(int id, String time_range) {
-        this.id = id;
-        this.time_range = time_range;
-    }
 
     public ArrayList<Session> getSessions() {
         return sessions;
@@ -31,22 +23,29 @@ public class TimeSlot {
         this.sessions = sessions;
     }
 
-    public int getId() {
-        return id;
+    public Room() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Room(int room_id, String name) {
+        this.room_id = room_id;
+        this.name = name;
     }
 
-    public String getTime_range() {
-        return time_range;
+    public int getRoom_id() {
+        return room_id;
     }
 
-    public void setTime_range(String time_range) {
-        this.time_range = time_range;
+    public void setRoom_id(int room_id) {
+        this.room_id = room_id;
     }
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     
     
