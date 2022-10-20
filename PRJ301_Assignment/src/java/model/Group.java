@@ -11,54 +11,46 @@ import java.util.ArrayList;
  * @author Acer
  */
 public class Group {
-    private int group_id;
-    private String group_name;
-    private Session session;
-    private Lecturer lecturer;
+    private int gid;
+    private String gname;
     private Subject subject;
-    private ArrayList<StudentGroup> studentgroup = new ArrayList<>();
+    private Lecturer lecturer;
+    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Session> sessions = new ArrayList<>();
+    private String semester;
+    private int year;
+    private Term term;
 
-    public Group() {
+    public Term getTerm() {
+        return term;
     }
 
-    public ArrayList<StudentGroup> getStudentgroup() {
-        return studentgroup;
+    public void setTerm(Term term) {
+        this.term = term;
     }
 
-    public void setStudentgroup(ArrayList<StudentGroup> studentgroup) {
-        this.studentgroup = studentgroup;
+    public int getGid() {
+        return gid;
     }
 
-    public Group(int group_id, String group_name, Session session, Lecturer lecturer, Subject subject) {
-        this.group_id = group_id;
-        this.group_name = group_name;
-        this.session = session;
-        this.lecturer = lecturer;
+    public void setGid(int gid) {
+        this.gid = gid;
+    }
+
+    public String getGname() {
+        return gname;
+    }
+
+    public void setGname(String gname) {
+        this.gname = gname;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
         this.subject = subject;
-    }
-
-    public int getGroup_id() {
-        return group_id;
-    }
-
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
-    }
-
-    public String getGroup_name() {
-        return group_name;
-    }
-
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
     }
 
     public Lecturer getLecturer() {
@@ -69,12 +61,36 @@ public class Group {
         this.lecturer = lecturer;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public ArrayList<Student> getStudents() {
+        return students;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
+    public ArrayList<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(ArrayList<Session> sessions) {
+        this.sessions = sessions;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
     
     

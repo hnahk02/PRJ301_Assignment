@@ -10,25 +10,25 @@ import java.util.ArrayList;
  *
  * @author Acer
  */
-public class Subject {
-    private int subid;
-    private String subname;
-    private ArrayList<Group> groups = new ArrayList<>();
+public class Term  {
+    private int term_id;
+    private String tname;
+    ArrayList<Group> groups = new ArrayList<>();
 
-    public int getSubid() {
-        return subid;
+    public int getTerm_id() {
+        return term_id;
     }
 
-    public void setSubid(int subid) {
-        this.subid = subid;
+    public void setTerm_id(int term_id) {
+        this.term_id = term_id;
     }
 
-    public String getSubname() {
-        return subname;
+    public String getTname() {
+        return tname;
     }
 
-    public void setSubname(String subname) {
-        this.subname = subname;
+    public void setTname(String tname) {
+        this.tname = tname;
     }
 
     public ArrayList<Group> getGroups() {
@@ -38,9 +38,5 @@ public class Subject {
     public void setGroups(ArrayList<Group> groups) {
         this.groups = groups;
     }
-
-  
-   
-    
     
 }

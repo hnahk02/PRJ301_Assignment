@@ -11,74 +11,43 @@ import java.util.ArrayList;
  * @author Acer
  */
 public class Student {
-    private String code;
-    private String member;
-    private String surname;
-    private String middle_name;
-    private String given_name;
-    private ArrayList<StudentGroup> studentgroup = new ArrayList<>();
+    private int id;
+    private String name;
+    private ArrayList<Group> groups = new ArrayList<>();
+    private ArrayList<Attendance> attendances = new ArrayList<>();
 
-    public ArrayList<StudentGroup> getStudentgroup() {
-        return studentgroup;
+    public int getId() {
+        return id;
     }
 
-    public void setStudentgroup(ArrayList<StudentGroup> studentgroup) {
-        this.studentgroup = studentgroup;
+    public void setId(int id) {
+        this.id = id;
     }
 
-   
-
-    public Student() {
+    public String getName() {
+        return name;
     }
 
-    public Student(String code, String member, String surname, String middle_name, String given_name) {
-        this.code = code;
-        this.member = member;
-        this.surname = surname;
-        this.middle_name = middle_name;
-        this.given_name = given_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-  
-    public String getCode() {
-        return code;
+    public ArrayList<Group> getGroups() {
+        return groups;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setGroups(ArrayList<Group> groups) {
+        this.groups = groups;
     }
 
-    public String getMember() {
-        return member;
+    public ArrayList<Attendance> getAttendances() {
+        return attendances;
     }
 
-    public void setMember(String member) {
-        this.member = member;
+    public void setAttendances(ArrayList<Attendance> attendances) {
+        this.attendances = attendances;
     }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getMiddle_name() {
-        return middle_name;
-    }
-
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
-    }
-
-    public String getGiven_name() {
-        return given_name;
-    }
-
-    public void setGiven_name(String given_name) {
-        this.given_name = given_name;
-    }
+    
     
     
     

@@ -11,15 +11,23 @@ import java.util.ArrayList;
  * @author Acer
  */
 public class TimeSlot {
-    private int id;
+    private int tid;
     private String time_range;
     private ArrayList<Session> sessions = new ArrayList<>();
 
-    public TimeSlot() {
+    public int getTid() {
+        return tid;
     }
 
-    public TimeSlot(int id, String time_range) {
-        this.id = id;
+    public void setTid(int tid) {
+        this.tid = tid;
+    }
+
+    public String getTime_range() {
+        return time_range;
+    }
+
+    public void setTime_range(String time_range) {
         this.time_range = time_range;
     }
 
@@ -31,23 +39,6 @@ public class TimeSlot {
         this.sessions = sessions;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTime_range() {
-        return time_range;
-    }
-
-    public void setTime_range(String time_range) {
-        this.time_range = time_range;
-    }
-    
-    
-    
+   
     
 }

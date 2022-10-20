@@ -10,13 +10,98 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Attendance;
+import model.Group;
+import model.Lecturer;
+import model.Room;
 import model.Session;
+import model.Student;
+import model.Subject;
+import model.TimeSlot;
 
 /**
  *
  * @author Acer
  */
 public class SessionDBContext extends DBContext<Session> {
+
+    public ArrayList<Session> AttendanceReport(int stdid, int term_id, int gid) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        try {
+
+            String sql = "select "
+                    + "ses.sesid, ses.[date], ses.[index], ses.attanded,\n"
+                    + "l.lid, l.lname,\n"
+                    + "s.stdid, s.stdname,\n"
+                    + "g.gid, g.gname,\n"
+                    + "sub.subid, sub.subname,\n"
+                    + "r.rid, r.rname,\n"
+                    + "t.tid,t.[time_range]\n"
+                    + "from [Session] ses \n"
+                    + "inner join Lecturer l on l.lid = ses.lid\n"
+                    + "inner join [Group] g on g.gid = ses.gid\n"
+                    + "inner join Term te on g.term_id = te.term_id\n"
+                    + "inner join [Subject] sub on sub.subid = g.subid\n"
+                    + "inner join Room r on r.rid = ses.rid\n"
+                    + "inner join TimeSlot t on t.tid = ses.tid\n"
+                    + "inner join Attandance a on a.sesid = ses.sesid\n"
+                    + "inner join Student s on s.stdid = a.stdid\n"
+                    + "where s.stdid = ? and te.term_id = ? and g.gid = ?";
+                    
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, stdid);
+            stm.setInt(2, term_id);
+            stm.setInt(3, gid);
+            
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                Session session = new Session();
+                Lecturer l = new Lecturer();
+                Group g = new Group();
+                Subject sub = new Subject();
+                Room r = new Room();
+                TimeSlot t = new TimeSlot();
+                Attendance a = new Attendance();
+                Student s = new Student();
+                
+                session.setSesid(rs.getInt("sesid"));
+                session.setDate(rs.getDate("date"));
+                session.setIndex(rs.getInt("index"));
+                session.setAttanded(rs.getBoolean("attanded"));
+                
+                l.setLid(rs.getInt("lid"));
+                l.setLname(rs.getString("lname"));
+                session.setLecturer(l);
+                
+                g.setGid(rs.getInt("gid"));
+                g.setGname(rs.getString("gname"));
+                session.setGroup(g);
+                
+                sub.setSubid(rs.getInt("subid"));
+                sub.setSubname(rs.getString("subname"));
+                g.setSubject(sub);
+
+                r.setRid(rs.getInt("rid"));
+                r.setRname(rs.getString("rname"));
+                session.setRoom(r);
+                
+                t.setTid(rs.getInt("tid"));
+                t.setTime_range(rs.getString("time_range"));
+                session.setTimeslot(t);
+                
+                s.setId(rs.getInt("stdid"));
+                s.setName(rs.getString("stdname"));
+                a.setStudent(s);
+                
+                sessions.add(session);
+            
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sessions;
+    }
 
     @Override
     public void insert(Session model) {
@@ -30,32 +115,14 @@ public class SessionDBContext extends DBContext<Session> {
 
     @Override
     public ArrayList<Session> list() {
-        ArrayList<Session> sessions = new ArrayList<>();
-        String sql = "SELECT se.session_id ,se.[date], se.slot, r.room_name, a.[status], t.time_range\n"
-                + "FROM [Session] se, Room r, Time_slot t, Attendance a\n"
-                + "WHERE se.attendance_id = a.attendance_id and se.room_id = r.room_id\n"
-                + "and se.time_id = t.time_id";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                Session se = new Session();
-                int session_id = rs.getInt("session_id");
-                int slot = rs.getInt("slot");
-                String room_name = rs.getString("room_name");
-                Boolean status = rs.getBoolean("status");
-                String time_range = rs.getString("time_range");
-                
-                se.setSession_id(session_id);
-                se.setSlot(slot);
-              
-                
 
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return sessions;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    }
+
+    @Override
+    public Session get(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

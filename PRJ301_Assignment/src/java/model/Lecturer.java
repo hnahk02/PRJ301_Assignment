@@ -11,32 +11,25 @@ import java.util.ArrayList;
  * @author Acer
  */
 public class Lecturer {
-    private int lecturer_id;
-    private String lecturer;
+    private int lid;
+    private String lname;
     private ArrayList<Group> groups = new ArrayList<>();
+    private ArrayList<Session> sessions = new ArrayList<>();
 
-    public Lecturer() {
+    public int getLid() {
+        return lid;
     }
 
-    public Lecturer(int lecturer_id, String lecturer) {
-        this.lecturer_id = lecturer_id;
-        this.lecturer = lecturer;
+    public void setLid(int lid) {
+        this.lid = lid;
     }
 
-    public int getLecturer_id() {
-        return lecturer_id;
+    public String getLname() {
+        return lname;
     }
 
-    public void setLecturer_id(int lecturer_id) {
-        this.lecturer_id = lecturer_id;
-    }
-
-    public String getLecturer() {
-        return lecturer;
-    }
-
-    public void setLecturer(String lecturer) {
-        this.lecturer = lecturer;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public ArrayList<Group> getGroups() {
@@ -46,8 +39,18 @@ public class Lecturer {
     public void setGroups(ArrayList<Group> groups) {
         this.groups = groups;
     }
+
+    public ArrayList<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(ArrayList<Session> sessions) {
+        this.sessions = sessions;
+    }
     
     
+
+   
     
     
 }

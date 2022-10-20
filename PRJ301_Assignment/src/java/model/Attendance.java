@@ -5,49 +5,81 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author Acer
  */
 public class Attendance {
-    private int id;
-    private boolean status;
-    private ArrayList<Session> sessions = new ArrayList<>();
+   private Student student;
+   private Session session;
+   private boolean present;
+   private String description;
+   private Date record_time;
 
-    public Attendance() {
+    public Student getStudent() {
+        return student;
     }
 
-    public ArrayList<Session> getSessions() {
-        return sessions;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public void setSessions(ArrayList<Session> sessions) {
-        this.sessions = sessions;
+    public Session getSession() {
+        return session;
     }
 
-    public Attendance(int id, boolean status) {
-        this.id = id;
-        this.status = status;
+    public void setSession(Session session) {
+        this.session = session;
     }
 
-    public int getId() {
-        return id;
+    public boolean isPresent() {
+        return present;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 
-    public boolean isStatus() {
-        return status;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public Date getRecord_time() {
+        return record_time;
+    }
+
+    public void setRecord_time(Date record_time) {
+        this.record_time = record_time;
+    }
+   
+    public String getAttendanceStatus(boolean present, Session session){
+        if(present== true && session.isAttanded()== true){
+            return "present";
+        }else if (present == false && session.isAttanded() == true){
+            return "absent";
+        }else 
+            return "future";
+    }
+   
+    public double calAttendPercent(boolean present, Session session){
+        int countPresent = 0;
+        int countSlot = 0;
+        if(this.present==false ){
+            countPresent ++;
+        }
+        if(session.isAttanded()==true || session.isAttanded()==false){
+            countSlot++ ;
+        }
+        return (countPresent/countSlot)*100.0;
     
-    
-    
+    }
+   
+   
     
 }
