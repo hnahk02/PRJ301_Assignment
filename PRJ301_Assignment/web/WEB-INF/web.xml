@@ -4,9 +4,25 @@
         <servlet-name>AttandanceReportController</servlet-name>
         <servlet-class>controller.student.AttandanceReportController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WeeklyTimtableController</servlet-name>
+        <servlet-class>controller.student.WeeklyTimtableController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LecturerTimtableController</servlet-name>
+        <servlet-class>controller.lecturer.LecturerTimtableController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttandanceReportController</servlet-name>
         <url-pattern>/report/viewAttendStudent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WeeklyTimtableController</servlet-name>
+        <url-pattern>/student/weeklytimtable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LecturerTimtableController</servlet-name>
+        <url-pattern>/lecturer/lecturertimtable</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

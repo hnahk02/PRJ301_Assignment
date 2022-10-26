@@ -10,49 +10,48 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Term;
+import model.Lecturer;
+
 
 /**
  *
  * @author Acer
  */
-public class TermDBContext extends DBContext<Term> {
+public class LecturerDBContext extends dal.DBContext<Lecturer> {
 
     @Override
-    public void insert(Term model) {
+    public void insert(Lecturer model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(Term model) {
+    public void update(Lecturer model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+
     @Override
-    public ArrayList<Term> list() {
-         ArrayList<Term> terms = new ArrayList<>();
-        String sql = "select term_id, tname from Term";
+    public Lecturer get(int id) {
         try {
+            String sql = "SELECT lid,lname FROM Lecturer WHERE lid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                Term t = new Term();
-                int term_id = rs.getInt("term_id");
-                String tname = rs.getString("tname");
-                 
-                t.setTerm_id(term_id);
-                t.setTname(tname);
-                
-                terms.add(t);
+            if(rs.next())
+            {
+                Lecturer l = new Lecturer();
+                l.setLid(rs.getInt("lid"));
+                l.setLname(rs.getString("lname"));
+                return l;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LecturerDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return terms;
+        return null;
     }
-    
-   
-    public Term get(int id) {
+
+    @Override
+    public ArrayList<Lecturer> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

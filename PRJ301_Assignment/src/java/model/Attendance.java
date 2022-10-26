@@ -66,6 +66,15 @@ public class Attendance {
         }else 
             return "future";
     }
+    
+    public String getAttendanceStatusWeeklyTimtable(boolean present, Session session){
+        if(present== true && session.isAttanded()== true){
+            return "attended";
+        }else if (present == false && session.isAttanded() == true){
+            return "absent";
+        }else 
+            return "not yet";
+    }
    
     public double calAttendPercent(boolean present, Session session){
         int countPresent = 0;

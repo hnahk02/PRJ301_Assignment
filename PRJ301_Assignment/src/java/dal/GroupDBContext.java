@@ -19,6 +19,8 @@ import model.Term;
  * @author Acer
  */
 public class GroupDBContext extends DBContext<Group> {
+    
+   
 
     public ArrayList<Group> getGroupByStudentIDandTermID(int stdid, int term_id) {
         
@@ -65,7 +67,7 @@ public class GroupDBContext extends DBContext<Group> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
+    
     public Group get(int id) {
         try {
             String sql = "Select gid, gname from [Group] where gid = ?";

@@ -33,7 +33,7 @@ public class StudentDBContext extends DBContext<Student> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
+    
     public Student get(int id) {
         try {
             String sql = "Select stdid, stdname from Student where stdid = ?";
