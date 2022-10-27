@@ -30,7 +30,7 @@ public class LecturerDBContext extends dal.DBContext<Lecturer> {
     }
 
 
-    @Override
+   
     public Lecturer get(int id) {
         try {
             String sql = "SELECT lid,lname FROM Lecturer WHERE lid = ?";

@@ -26,6 +26,71 @@ import model.TimeSlot;
  * @author Acer
  */
 public class SessionDBContext extends DBContext<Session> {
+    
+     public ArrayList<Session> filterLecturerTimtable(int lid, Date from, Date to) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        try {
+            String sql = "select  \n"
+                    + "	ses.sesid,ses.[date],ses.[index],ses.attanded\n"
+                    + "	,l.lid,l.lname\n"
+                    + "	,g.gid,g.gname\n"
+                    + "	,sub.subid,sub.subname\n"
+                    + "	,r.rid,r.rname\n"
+                    + "	,t.tid,t.time_range\n"
+                    + "from [Session] ses \n"
+                    + "	inner join Lecturer l ON l.lid = ses.lid\n"
+                    + "	inner join [Group] g ON g.gid = ses.gid\n"
+                    + "	inner join [Subject] sub ON sub.subid = g.subid\n"
+                    + "	inner join Room r ON r.rid = ses.rid\n"
+                    + "	inner join TimeSlot t ON t.tid = ses.tid\n"
+                    + "where\n"
+                    + "l.lid = ? and ses.[date] >= ? and ses.[date] <= ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, lid);
+            stm.setDate(2, from);
+            stm.setDate(3, to);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next())
+            {
+                Session session = new Session();
+                Lecturer l = new Lecturer();
+                Room r = new Room();
+                Group g = new Group();
+                TimeSlot t = new TimeSlot();
+                Subject sub = new Subject();
+                
+                session.setSesid(rs.getInt("sesid"));
+                session.setDate(rs.getDate("date"));
+                session.setIndex(rs.getInt("index"));
+                session.setAttanded(rs.getBoolean("attanded"));
+                
+                l.setLid(rs.getInt("lid"));
+                l.setLname(rs.getString("lname"));
+                session.setLecturer(l);
+                
+                g.setGid(rs.getInt("gid"));
+                g.setGname(rs.getString("gname"));
+                session.setGroup(g);
+                
+                sub.setSubid(rs.getInt("subid"));
+                sub.setSubname(rs.getString("subname"));
+                g.setSubject(sub);
+                
+                r.setRid(rs.getInt("rid"));
+                r.setRname(rs.getString("rname"));
+                session.setRoom(r);
+                
+                t.setTid(rs.getInt("tid"));
+                t.setTime_range(rs.getString("time_range"));
+                session.setTimeslot(t);
+                
+                sessions.add(session);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sessions;
+    }
    
     
     public ArrayList<Session> filterStudentWeeklyTimtablebyDate(int stdid, Date from, Date to){
@@ -192,7 +257,7 @@ public class SessionDBContext extends DBContext<Session> {
 
     @Override
     public void update(Session model) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
@@ -203,6 +268,7 @@ public class SessionDBContext extends DBContext<Session> {
     }
 
    
+     @Override
     public Session get(int year) {
        
         return null;
