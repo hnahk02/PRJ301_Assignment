@@ -257,7 +257,55 @@ public class SessionDBContext extends DBContext<Session> {
 
     @Override
     public void update(Session model) {
-        
+        try {
+            connection.setAutoCommit(false);
+            String sql = "update [Session] set attanded = 1 WHERE sesid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, model.getSesid());
+            stm.executeUpdate();
+
+            sql = "delete Attandance where sesid = ?";
+            PreparedStatement stm_delete = connection.prepareStatement(sql);
+            stm_delete.setInt(1, model.getSesid());
+            stm_delete.executeUpdate();
+
+            
+            for (Attendance att : model.getAttendances()) {
+                sql = "INSERT INTO [Attandance]\n"
+                        + "           ([sesid]\n"
+                        + "           ,[stdid]\n"
+                        + "           ,[present]\n"
+                        + "           ,[description]\n"
+                        + "           ,[record_time])\n"
+                        + "     VALUES\n"
+                        + "           (?\n"
+                        + "           ,?\n"
+                        + "           ,?\n"
+                        + "           ,?\n"
+                        + "           ,GETDATE())";
+                PreparedStatement stm_insert = connection.prepareStatement(sql);
+                stm_insert.setInt(1, model.getSesid());
+                stm_insert.setInt(2, att.getStudent().getId());
+                stm_insert.setBoolean(3, att.isPresent());
+                stm_insert.setString(4, att.getDescription());
+                stm_insert.executeUpdate();
+            }
+            connection.commit();
+        } catch (SQLException ex) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     @Override
@@ -269,10 +317,79 @@ public class SessionDBContext extends DBContext<Session> {
 
    
      @Override
-    public Session get(int year) {
-       
+    public Session get(int sesid) {
+       try {
+            String sql = "SELECT ses.sesid,ses.[index],ses.date,ses.attanded\n"
+                    + "	,g.gid,g.gname\n"
+                    + "	,r.rid,r.rname\n"
+                    + "	,t.tid,t.time_range\n"
+                    + "	,l.lid,l.lname\n"
+                    + "	,sub.subid,sub.subname\n"
+                    + "	,s.stdid,s.stdname\n"
+                    + "	,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
+                    + "		FROM [Session] ses\n"
+                    + "		INNER JOIN Room r ON r.rid = ses.rid\n"
+                    + "		INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
+                    + "		INNER JOIN Lecturer l ON l.lid = ses.lid\n"
+                    + "		INNER JOIN [Group] g ON g.gid = ses.gid\n"
+                    + "		INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
+                    + "		INNER JOIN [Student_Group] sg ON sg.gid = g.gid\n"
+                    + "		INNER JOIN [Student] s ON s.stdid = sg.stdid\n"
+                    + "		LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
+                    + "WHERE ses.sesid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, sesid);
+            ResultSet rs = stm.executeQuery();
+            Session ses = null;
+            while (rs.next()) {
+                if (ses == null) {
+                    ses = new Session();
+                    Room r = new Room();
+                    r.setRid(rs.getInt("rid"));
+                    r.setRname(rs.getString("rname"));
+                    ses.setRoom(r);
+
+                    TimeSlot t = new TimeSlot();
+                    t.setTid(rs.getInt("tid"));
+                    t.setTime_range(rs.getString("time_range"));
+                    ses.setTimeslot(t);
+
+                    Lecturer l = new Lecturer();
+                    l.setLid(rs.getInt("lid"));
+                    l.setLname(rs.getString("lname"));
+                    ses.setLecturer(l);
+
+                    Group g = new Group();
+                    g.setGid(rs.getInt("gid"));
+                    g.setGname(rs.getString("gname"));
+                    ses.setGroup(g);
+
+                    Subject sub = new Subject();
+                    sub.setSubid(rs.getInt("subid"));
+                    sub.setSubname(rs.getString("subname"));
+                    g.setSubject(sub);
+
+                    ses.setDate(rs.getDate("date"));
+                    ses.setIndex(rs.getInt("index"));
+                    ses.setAttanded(rs.getBoolean("attanded"));
+                }
+               
+                Student s = new Student();
+                s.setId(rs.getInt("stdid"));
+                s.setName(rs.getString("stdname"));
+                
+                Attendance a = new Attendance();
+                a.setStudent(s);
+                a.setSession(ses);
+                a.setPresent(rs.getBoolean("present"));
+                a.setDescription(rs.getString("description"));
+                ses.getAttendances().add(a);
+            }
+            return ses;
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
-       
     }
 
 }

@@ -30,7 +30,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AttendanceController</servlet-name>
-        <url-pattern>/lecturer/takeatts</url-pattern>
+        <url-pattern>/lecturer/takeattend</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
