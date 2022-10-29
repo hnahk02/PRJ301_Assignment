@@ -26,7 +26,7 @@ import model.TimeSlot;
 public class AttandanceDBContext extends DBContext<Attendance> {
 
     public ArrayList<Attendance> getStatusAndDescription(int stdid, int term_id, int gid) {
-       ArrayList<Attendance> atts = new ArrayList<>();
+        ArrayList<Attendance> atts = new ArrayList<>();
         try {
 
             String sql = "select \n"
@@ -49,7 +49,7 @@ public class AttandanceDBContext extends DBContext<Attendance> {
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                
+
                 Attendance a = new Attendance();
                 Session s = new Session();
                 a.setDescription(rs.getString("description"));
@@ -57,9 +57,9 @@ public class AttandanceDBContext extends DBContext<Attendance> {
                 s.setSesid(rs.getInt("sesid"));
                 s.setAttanded(rs.getBoolean("attanded"));
                 a.setSession(s);
-                
+
                 atts.add(a);
-             
+
             }
 
         } catch (SQLException ex) {
@@ -67,9 +67,9 @@ public class AttandanceDBContext extends DBContext<Attendance> {
         }
         return atts;
     }
-    
+
     public ArrayList<Attendance> getStatusAttendWeeklyTimtable(int stdid) {
-       ArrayList<Attendance> atts = new ArrayList<>();
+        ArrayList<Attendance> atts = new ArrayList<>();
         try {
 
             String sql = "select \n"
@@ -87,11 +87,10 @@ public class AttandanceDBContext extends DBContext<Attendance> {
 
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, stdid);
-            
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                
+
                 Attendance a = new Attendance();
                 Session s = new Session();
                 a.setDescription(rs.getString("description"));
@@ -99,9 +98,9 @@ public class AttandanceDBContext extends DBContext<Attendance> {
                 s.setSesid(rs.getInt("sesid"));
                 s.setAttanded(rs.getBoolean("attanded"));
                 a.setSession(s);
-                
+
                 atts.add(a);
-             
+
             }
 
         } catch (SQLException ex) {
@@ -109,7 +108,37 @@ public class AttandanceDBContext extends DBContext<Attendance> {
         }
         return atts;
     }
-    
+
+    public Attendance getAbsent(int gid, int stdid) {
+        
+        try {
+
+            String sql = "select count(a.present) as 'countAbsent' from Attandance a\n"
+                    + "inner join [Session] se on se.sesid= a.sesid\n"
+                    + "where se.gid= ?  and a.stdid = ? and a.present = 0\n"
+                    + "group by a.present, a.stdid";
+
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, gid);
+            stm.setInt(2, stdid);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+
+                Attendance a = new Attendance();
+                Session s = new Session();
+                
+                a.setCountAbsent(rs.getInt("countAbsent"));
+                 return a;
+               
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     @Override
     public void insert(Attendance model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -125,10 +154,8 @@ public class AttandanceDBContext extends DBContext<Attendance> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
     public Attendance get(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 
 }

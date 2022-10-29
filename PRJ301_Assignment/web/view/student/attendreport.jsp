@@ -72,17 +72,15 @@
 
                 </tr>
             </c:forEach>
-            
-
-
 
         </table>
-                <c:forEach items="${requestScope.atts}" var="atts">
+               
            
-                <td>ABSENT: ${model.calAttendPercent(atts.present, atts.session)}% <td>
-                
-                </c:forEach>
-                    ABSENT : 
+   
+        <c:set var = "Absent" scope = "session" value = "${requestScope.countAbsent.countAbsent/requestScope.totalSession.totalSession*100}"/>
+        
+        
+        <h3> ABSENT : <c:out value = "${Absent}%"/>  ABSENT SO FAR (${requestScope.countAbsent.countAbsent} ABSENT ON ${requestScope.totalSession.totalSession} TOTAL). </h3>
                     
 
     </body>

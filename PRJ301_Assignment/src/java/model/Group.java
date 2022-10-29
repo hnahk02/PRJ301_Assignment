@@ -20,6 +20,15 @@ public class Group {
     private String semester;
     private int year;
     private Term term;
+    private int totalSession;
+
+    public int getTotalSession() {
+        return totalSession;
+    }
+
+    public void setTotalSession(int totalSession) {
+        this.totalSession = totalSession;
+    }
 
     public Term getTerm() {
         return term;

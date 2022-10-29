@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.student;
+package controller.lecturer;
 
 import dal.AttandanceDBContext;
 import dal.GroupDBContext;
+import dal.LecturerDBContext;
 import dal.SessionDBContext;
 import dal.StudentDBContext;
 import dal.TermDBContext;
@@ -18,6 +19,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import model.Attendance;
 import model.Group;
+import model.Lecturer;
 import model.Session;
 import model.Student;
 import model.Term;
@@ -27,7 +29,7 @@ import model.Term;
  *
  * @author Acer
  */
-public class AttandanceReportController extends HttpServlet {
+public class ViewAttendReportController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,42 +42,55 @@ public class AttandanceReportController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int stdid = Integer.parseInt(request.getParameter("stdid"));
+        int lid = Integer.parseInt(request.getParameter("lid"));
         int term_id = Integer.parseInt(request.getParameter("term_id"));
         int gid = Integer.parseInt(request.getParameter("gid"));
+        
+                
+
         
         TermDBContext teDB = new TermDBContext();
         ArrayList<Term> term_list = teDB.list();
         request.setAttribute("term", term_list);
         
+        TermDBContext t = new TermDBContext();
+        Term term = t.get(term_id);
+        request.setAttribute("t", term);
+
+        
         GroupDBContext gDB = new GroupDBContext();
-        ArrayList<Group> groups = gDB.getGroupByStudentIDandTermID(stdid, term_id);
+        ArrayList<Group> groups = gDB.getGroupByLecturerIDandTermID(lid,term_id);
         request.setAttribute("groups", groups);
+       
         
-        GroupDBContext total = new GroupDBContext();
-        Group totalSession = total.getTotalSessionsofGroup(gid);
-        request.setAttribute("totalSession", totalSession);
+        GroupDBContext g = new GroupDBContext();
+        Group group = g.get(gid);
+        request.setAttribute("g", group);
         
-        
-        
-        SessionDBContext sesDB = new SessionDBContext();
-        ArrayList<Session> sessions = sesDB.AttendanceReport(stdid, term_id, gid);
-        request.setAttribute("sessions", sessions);
-        
-        AttandanceDBContext attDB = new AttandanceDBContext();
-        ArrayList<Attendance> atts = attDB.getStatusAndDescription(stdid, term_id, gid);
-        request.setAttribute("atts", atts);
-        
-        AttandanceDBContext count = new AttandanceDBContext();
-        Attendance countAbsent = count.getAbsent(gid, stdid);
-        request.setAttribute("countAbsent", countAbsent);
-        
-        StudentDBContext stuDB = new StudentDBContext();
-        Student student = stuDB.get(stdid);
-        request.setAttribute("student", student);
+       StudentDBContext stdDB = new StudentDBContext();
+       ArrayList<Student> stds = stdDB.getListStudentbyLecturerIDandGroupIDandTermID(lid, gid, term_id);
+       request.setAttribute("stds", stds);
+       
+        LecturerDBContext lecDB = new LecturerDBContext();
+        Lecturer lecturer = lecDB.get(lid);
+        request.setAttribute("lecturer", lecturer);
         
         
-        request.getRequestDispatcher("../view/student/attendreport.jsp").forward(request, response);
+        
+        
+       
+       
+        
+        
+        
+       
+        
+        
+        
+       
+       
+        
+        request.getRequestDispatcher("../view/lecturer/viewattendreport.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

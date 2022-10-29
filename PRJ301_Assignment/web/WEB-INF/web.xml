@@ -16,6 +16,10 @@
         <servlet-name>AttendanceController</servlet-name>
         <servlet-class>controller.lecturer.AttendanceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewAttendReportController</servlet-name>
+        <servlet-class>controller.lecturer.ViewAttendReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttandanceReportController</servlet-name>
         <url-pattern>/report/viewAttendStudent</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>AttendanceController</servlet-name>
         <url-pattern>/lecturer/takeattend</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAttendReportController</servlet-name>
+        <url-pattern>/lecturer/viewattendreport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

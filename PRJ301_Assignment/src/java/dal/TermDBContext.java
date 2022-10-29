@@ -52,8 +52,29 @@ public class TermDBContext extends DBContext<Term> {
     }
     
    
+    @Override
     public Term get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         
+        try {
+            String sql = "select term_id, tname from Term "
+                    + "where term_id = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Term t = new Term();
+                int term_id = rs.getInt("term_id");
+                String tname = rs.getString("tname");
+                 
+                t.setTerm_id(term_id);
+                t.setTname(tname);
+                
+               return t;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

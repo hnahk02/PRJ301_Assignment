@@ -17,6 +17,15 @@ public class Attendance {
    private boolean present;
    private String description;
    private Date record_time;
+   private int countAbsent;
+
+    public int getCountAbsent() {
+        return countAbsent;
+    }
+
+    public void setCountAbsent(int countAbsent) {
+        this.countAbsent = countAbsent;
+    }
 
     public Student getStudent() {
         return student;
@@ -76,18 +85,7 @@ public class Attendance {
             return "not yet";
     }
    
-    public double calAttendPercent(boolean present, Session session){
-        int countPresent = 0;
-        int countSlot = 0;
-        if(this.present==false ){
-            countPresent ++;
-        }
-        if(session.isAttanded()==true || session.isAttanded()==false){
-            countSlot++ ;
-        }
-        return (countPresent/countSlot)*100.0;
     
-    }
    
    
     
