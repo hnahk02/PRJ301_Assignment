@@ -20,6 +20,14 @@
         <servlet-name>ViewAttendReportController</servlet-name>
         <servlet-class>controller.lecturer.ViewAttendReportController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.auth.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.auth.LogoutController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttandanceReportController</servlet-name>
         <url-pattern>/report/viewAttendStudent</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>ViewAttendReportController</servlet-name>
         <url-pattern>/lecturer/viewattendreport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
