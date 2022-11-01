@@ -4,6 +4,7 @@
  */
 package controller.student;
 
+import controller.auth.BaseRoleController;
 import dal.AttandanceDBContext;
 import dal.SessionDBContext;
 import dal.StudentDBContext;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import model.Account;
 import model.Attendance;
 import model.Session;
 import model.Student;
@@ -27,7 +29,7 @@ import utility.DateTimeManipulate;
  *
  * @author Acer
  */
-public class WeeklyTimtableController extends HttpServlet {
+public class WeeklyTimtableController extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -116,6 +118,16 @@ public class WeeklyTimtableController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    @Override
+    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
    

@@ -14,6 +14,15 @@ public class Account {
     private String username;
     private String password;
     private String displayname;
+    private String classify_account;
+
+    public String getClassify_account() {
+        return classify_account;
+    }
+
+    public void setClassify_account(String classify_account) {
+        this.classify_account = classify_account;
+    }
     
     private ArrayList<Role> roles = new ArrayList<>();
 

@@ -15,10 +15,13 @@
     </head>
     <body>
 
-       
+        <c:if test="${sessionScope.account ne null}">
+            <h4>USER <span style="color: green">${sessionScope.account.displayname}</span>  <a href="#"><span>Campus: FPTU - Hoa Lac</span></a> | <a href="../logout"> <span>Logout</span></a> </h4>
+        </c:if>
             Lecturer: <input type="text" readonly="readonly" value="${requestScope.lecturer.lname}"/>
-         <form action="lecturertimetable" method="GET">
-            <input type="hidden" name="lid" value="${param.lid}"/>
+         <form action="lecturertimetable" method="POST">
+             <input type="hidden" name="username" value="${requestScope.username}">
+             <input type="hidden" name="lid" value="${requestScope.lid}"/>
 
             <tr>
                 <td>

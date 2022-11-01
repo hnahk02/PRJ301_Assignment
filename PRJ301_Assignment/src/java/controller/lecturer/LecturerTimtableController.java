@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import controller.auth.BaseRoleController;
 import dal.LecturerDBContext;
 import dal.SessionDBContext;
 import dal.TimeSlotDBContext;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import model.Account;
 import model.Lecturer;
 import model.Session;
 import model.TimeSlot;
@@ -25,19 +27,10 @@ import utility.DateTimeManipulate;
  *
  * @author Acer
  */
-public class LecturerTimtableController extends HttpServlet {
+public class LecturerTimtableController extends BaseRoleController {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Override
+    protected void processPost(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
         int lid = Integer.parseInt(request.getParameter("lid"));
         String raw_from = request.getParameter("from");
         String raw_to = request.getParameter("to");
@@ -57,7 +50,7 @@ public class LecturerTimtableController extends HttpServlet {
             from = java.sql.Date.valueOf(raw_from);
             to = java.sql.Date.valueOf(raw_to);
         }
-        
+        request.setAttribute("lid", lid);
         request.setAttribute("from", from);
         request.setAttribute("to", to);
         request.setAttribute("dates", DateTimeManipulate.getDateList(from, to));
@@ -78,33 +71,52 @@ public class LecturerTimtableController extends HttpServlet {
         
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void processGet(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        
+        LecturerDBContext lDB = new LecturerDBContext();
+        int lid = lDB.getLecturerIdByUsername(username);
+        
+        
+        
+        String raw_from = request.getParameter("from");
+        String raw_to = request.getParameter("to");
+        java.sql.Date from = null;
+        java.sql.Date to = null;
+        if(raw_from ==null || raw_from.length() ==0)
+        {
+            Date today = new Date();
+            int todayOfWeek = DateTimeManipulate.getDayofWeek(today);
+            Date e_from = DateTimeManipulate.addDays(today, 2 - todayOfWeek);
+            Date e_to = DateTimeManipulate.addDays(today, 8-todayOfWeek);
+            from = DateTimeManipulate.toDateSql(e_from);
+            to = DateTimeManipulate.toDateSql(e_to);
+        }
+        else
+        {
+            from = java.sql.Date.valueOf(raw_from);
+            to = java.sql.Date.valueOf(raw_to);
+        }
+        request.setAttribute("lid", lid);
+        request.setAttribute("from", from);
+        request.setAttribute("to", to);
+        request.setAttribute("dates", DateTimeManipulate.getDateList(from, to));
+        
+        TimeSlotDBContext slotDB = new TimeSlotDBContext();
+        ArrayList<TimeSlot> slots = slotDB.list();
+        request.setAttribute("slots", slots);
+        
+        SessionDBContext sesDB = new SessionDBContext();
+        ArrayList<Session> sessions = sesDB.filterLecturerTimtable(lid, from, to);
+        request.setAttribute("sessions", sessions);
+        
+        LecturerDBContext lecDB = new LecturerDBContext();
+        Lecturer lecturer = lecDB.get(lid);
+        request.setAttribute("lecturer", lecturer);
+        
+        request.getRequestDispatcher("../view/lecturer/lecturertimetable.jsp").forward(request, response);
+        
     }
 
     /**

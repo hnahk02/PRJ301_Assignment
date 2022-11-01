@@ -77,6 +77,34 @@ public class GroupDBContext extends DBContext<Group> {
 
     }
     
+     public ArrayList<Group> getGroupByLecturerID(int stdid) {
+
+        ArrayList<Group> groups = new ArrayList();
+        try {
+
+            String sql = "select g.gid, g.gname from [Group] g \n"
+                    + "inner join Lecturer l on l.lid = g.lid\n"
+                    + "inner join Term t on t.term_id = g.term_id\n"
+                    + "where l.lid = ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, stdid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Group group = new Group();
+
+                group.setGid(rs.getInt("gid"));
+                group.setGname(rs.getString("gname"));
+
+                groups.add(group);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return groups;
+
+    }
+    
+    
     public Group getTotalSessionsofGroup(int gid){
         try {
             String sql = "select MAX(se.[index]) as 'totalSlot' from [Session] se where se.gid = ?";

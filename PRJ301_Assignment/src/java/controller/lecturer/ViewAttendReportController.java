@@ -4,6 +4,7 @@
  */
 package controller.lecturer;
 
+import controller.auth.BaseRoleController;
 import dal.AttandanceDBContext;
 import dal.GroupDBContext;
 import dal.LecturerDBContext;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import model.Account;
 import model.Attendance;
 import model.Group;
 import model.Lecturer;
@@ -29,7 +31,7 @@ import model.Term;
  *
  * @author Acer
  */
-public class ViewAttendReportController extends HttpServlet {
+public class ViewAttendReportController extends BaseRoleController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -131,5 +133,15 @@ public class ViewAttendReportController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

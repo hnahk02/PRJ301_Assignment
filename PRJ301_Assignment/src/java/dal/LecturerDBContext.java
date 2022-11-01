@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Lecturer;
 
-
 /**
  *
  * @author Acer
@@ -29,16 +28,31 @@ public class LecturerDBContext extends dal.DBContext<Lecturer> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public int getLecturerIdByUsername(String username) {
+        try {
+            String sql = "select l.lid from Lecturer l\n"
+                    + "inner join Account_Lecturer al on al.lid = l.lid\n"
+                    + "inner join Account a on a.username = al.username\n"
+                    + "where a.username= ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                return rs.getInt("lid");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LecturerDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
-   
     public Lecturer get(int id) {
         try {
             String sql = "SELECT lid,lname FROM Lecturer WHERE lid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            if(rs.next())
-            {
+            if (rs.next()) {
                 Lecturer l = new Lecturer();
                 l.setLid(rs.getInt("lid"));
                 l.setLname(rs.getString("lname"));
@@ -54,5 +68,5 @@ public class LecturerDBContext extends dal.DBContext<Lecturer> {
     public ArrayList<Lecturer> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }

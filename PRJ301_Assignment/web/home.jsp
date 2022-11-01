@@ -14,11 +14,24 @@
     <body>
 
         <c:if test="${sessionScope.account eq null}">
-            <a href="login">Login</a>&nbsp;&nbsp;&nbsp;
+            You are not logged in yet!!!
+            Click <a href="login">here</a> to login&nbsp;&nbsp;&nbsp;
+           
         </c:if>
         <c:if test="${sessionScope.account ne null}">
-            Hello ${sessionScope.account.displayname} 
-            <a href="logout">log out</a> 
+            <h4>Welcome <span style="color: green">${sessionScope.account.displayname}</span> to FAP  <a href="#"><span>Campus: FPTU - Hoa Lac</span></a> | <a href="logout"> <span>Logout</span></a> </h4>
+            <c:if test="${sessionScope.account.classify_account eq 'lecturer'}">
+                <p> You are ${sessionScope.account.classify_account}<p><br>
+                <a href="lecturer/lecturertimetable?username=${sessionScope.account.username}">Timetable</a>
+                <a href="lecturer/viewgroup?username=${sessionScope.account.username}">viewgroup</a>
+                
+
+            </c:if> 
+                <c:if test="${sessionScope.account.classify_account eq 'student'}">
+                You are ${sessionScope.account.classify_account}
+            </c:if> 
+         
         </c:if>
+           
     </body>
 </html>

@@ -28,6 +28,18 @@
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.auth.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controller.auth.HomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewGroupController</servlet-name>
+        <servlet-class>controller.lecturer.ViewGroupController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewListSessionController</servlet-name>
+        <servlet-class>controller.lecturer.ViewListSessionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AttandanceReportController</servlet-name>
         <url-pattern>/report/viewAttendStudent</url-pattern>
@@ -55,6 +67,18 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewGroupController</servlet-name>
+        <url-pattern>/lecturer/viewgroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewListSessionController</servlet-name>
+        <url-pattern>/lecturer/viewListSessionGroup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

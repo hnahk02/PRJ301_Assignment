@@ -13,6 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+       
         Take attendance for Group: ${requestScope.ses.group.gname} <br/>
         Subject: ${requestScope.ses.group.subject.subname} <br/>
         Room: ${requestScope.ses.room.rname} <br/>
