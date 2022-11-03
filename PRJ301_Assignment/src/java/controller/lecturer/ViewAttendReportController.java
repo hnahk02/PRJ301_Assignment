@@ -33,23 +33,14 @@ import model.Term;
  */
 public class ViewAttendReportController extends BaseRoleController {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+   
+    @Override
+    protected void processPost(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
         int lid = Integer.parseInt(request.getParameter("lid"));
+        request.setAttribute("lid", lid);
+        
         int term_id = Integer.parseInt(request.getParameter("term_id"));
         int gid = Integer.parseInt(request.getParameter("gid"));
-        
-                
-
         
         TermDBContext teDB = new TermDBContext();
         ArrayList<Term> term_list = teDB.list();
@@ -79,69 +70,48 @@ public class ViewAttendReportController extends BaseRoleController {
         
         
         
-        
-       
-       
-        
-        
-        
-       
-        
-        
-        
-       
-       
-        
         request.getRequestDispatcher("../view/lecturer/viewattendreport.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+    protected void processGet(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        LecturerDBContext lDB = new LecturerDBContext();
+        int lid = lDB.getLecturerIdByUsername(username);
+        request.setAttribute("lid", lid);
+        
+        int term_id = Integer.parseInt(request.getParameter("term_id"));
+        int gid = Integer.parseInt(request.getParameter("gid"));
+        
+        TermDBContext teDB = new TermDBContext();
+        ArrayList<Term> term_list = teDB.list();
+        request.setAttribute("term", term_list);
+        
+        TermDBContext t = new TermDBContext();
+        Term term = t.get(term_id);
+        request.setAttribute("t", term);
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
-    @Override
-    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        GroupDBContext gDB = new GroupDBContext();
+        ArrayList<Group> groups = gDB.getGroupByLecturerIDandTermID(lid,term_id);
+        request.setAttribute("groups", groups);
+       
+        
+        GroupDBContext g = new GroupDBContext();
+        Group group = g.get(gid);
+        request.setAttribute("g", group);
+        
+       StudentDBContext stdDB = new StudentDBContext();
+       ArrayList<Student> stds = stdDB.getListStudentbyLecturerIDandGroupIDandTermID(lid, gid, term_id);
+       request.setAttribute("stds", stds);
+       
+        LecturerDBContext lecDB = new LecturerDBContext();
+        Lecturer lecturer = lecDB.get(lid);
+        request.setAttribute("lecturer", lecturer);
+        
+        
+        
+        request.getRequestDispatcher("../view/lecturer/viewattendreport.jsp").forward(request, response);
     }
 
 }

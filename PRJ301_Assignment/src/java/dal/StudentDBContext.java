@@ -60,6 +60,25 @@ public class StudentDBContext extends DBContext<Student> {
         return stds;
     }
 
+    public int getStudentIDByUsername(String username) {
+        
+        try {
+            String sql = "select s.stdid from Student s\n"
+                    + "   inner join Account_Student ast on ast.stdid = s.stdid\n"
+                    + "   inner join Account a on a.username = ast.username\n"
+                    + "   where a.username= ? ";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                return rs.getInt("stdid");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return 0;
+    }
+
     public Student get(int id) {
         try {
             String sql = "Select stdid, stdname from Student where stdid = ?";

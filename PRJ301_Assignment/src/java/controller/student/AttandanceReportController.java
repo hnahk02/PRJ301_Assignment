@@ -5,6 +5,7 @@
 package controller.student;
 
 import controller.auth.BaseRoleController;
+import dal.AccountDBContext;
 import dal.AttandanceDBContext;
 import dal.GroupDBContext;
 import dal.SessionDBContext;
@@ -31,18 +32,13 @@ import model.Term;
  */
 public class AttandanceReportController extends BaseRoleController {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    
+    @Override
+    protected void processPost(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
+        
         int stdid = Integer.parseInt(request.getParameter("stdid"));
+        
+        request.setAttribute("stdid", stdid);
         int term_id = Integer.parseInt(request.getParameter("term_id"));
         int gid = Integer.parseInt(request.getParameter("gid"));
         
@@ -55,7 +51,7 @@ public class AttandanceReportController extends BaseRoleController {
         request.setAttribute("groups", groups);
         
         GroupDBContext total = new GroupDBContext();
-        Group totalSession = total.getTotalSessionsofGroup(gid);
+        int totalSession = total.getTotalSessionsofGroup(gid);
         request.setAttribute("totalSession", totalSession);
         
         
@@ -69,7 +65,7 @@ public class AttandanceReportController extends BaseRoleController {
         request.setAttribute("atts", atts);
         
         AttandanceDBContext count = new AttandanceDBContext();
-        Attendance countAbsent = count.getAbsent(gid, stdid);
+        int countAbsent = count.getAbsentSession(gid, stdid);
         request.setAttribute("countAbsent", countAbsent);
         
         StudentDBContext stuDB = new StudentDBContext();
@@ -80,53 +76,48 @@ public class AttandanceReportController extends BaseRoleController {
         request.getRequestDispatcher("../view/student/attendreport.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
-    @Override
-    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    protected void processGet(HttpServletRequest request, HttpServletResponse response, Account account) throws ServletException, IOException {
+        String username = request.getParameter("username");      
+        StudentDBContext sDB = new StudentDBContext();
+        int stdid = sDB.getStudentIDByUsername(username);
+        
+        request.setAttribute("stdid", stdid);
+        int term_id = Integer.parseInt(request.getParameter("term_id"));
+        int gid = Integer.parseInt(request.getParameter("gid"));
+        
+        TermDBContext teDB = new TermDBContext();
+        ArrayList<Term> term_list = teDB.list();
+        request.setAttribute("term", term_list);
+        
+        GroupDBContext gDB = new GroupDBContext();
+        ArrayList<Group> groups = gDB.getGroupByStudentIDandTermID(stdid, term_id);
+        request.setAttribute("groups", groups);
+        
+        GroupDBContext total = new GroupDBContext();
+        int totalSession = total.getTotalSessionsofGroup(gid);
+        request.setAttribute("totalSession", totalSession);
+        
+        
+        
+        SessionDBContext sesDB = new SessionDBContext();
+        ArrayList<Session> sessions = sesDB.AttendanceReport(stdid, term_id, gid);
+        request.setAttribute("sessions", sessions);
+        
+        AttandanceDBContext attDB = new AttandanceDBContext();
+        ArrayList<Attendance> atts = attDB.getStatusAndDescription(stdid, term_id, gid);
+        request.setAttribute("atts", atts);
+        
+        AttandanceDBContext count = new AttandanceDBContext();
+        int countAbsent = count.getAbsentSession(gid, stdid);
+        request.setAttribute("countAbsent", countAbsent);
+        
+        StudentDBContext stuDB = new StudentDBContext();
+        Student student = stuDB.get(stdid);
+        request.setAttribute("student", student);
+        
+        
+        request.getRequestDispatcher("../view/student/attendreport.jsp").forward(request, response);
 
 }
+    }

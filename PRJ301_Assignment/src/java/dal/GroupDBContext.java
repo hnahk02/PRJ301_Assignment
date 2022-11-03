@@ -105,7 +105,7 @@ public class GroupDBContext extends DBContext<Group> {
     }
     
     
-    public Group getTotalSessionsofGroup(int gid){
+    public int getTotalSessionsofGroup(int gid){
         try {
             String sql = "select MAX(se.[index]) as 'totalSlot' from [Session] se where se.gid = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -114,15 +114,12 @@ public class GroupDBContext extends DBContext<Group> {
             if(rs.next()){
                 Group g = new Group();
                 
-                
-                g.setTotalSession(rs.getInt("totalSlot"));
-                
-                return g;
+                return rs.getInt("totalSlot");
             }
         } catch (SQLException ex) {
             Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return 0;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class AttandanceDBContext extends DBContext<Attendance> {
         return atts;
     }
 
-    public Attendance getAbsent(int gid, int stdid) {
+    public int getAbsentSession(int gid, int stdid) {
         
         try {
 
@@ -124,19 +124,14 @@ public class AttandanceDBContext extends DBContext<Attendance> {
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
 
-                Attendance a = new Attendance();
-                Session s = new Session();
-                
-                a.setCountAbsent(rs.getInt("countAbsent"));
-                 return a;
+                 return rs.getInt("countAbsent");
                
-
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(SessionDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return 0;
     }
 
     @Override
