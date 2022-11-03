@@ -115,7 +115,7 @@ public class AttandanceDBContext extends DBContext<Attendance> {
 
             String sql = "select count(a.present) as 'countAbsent' from Attandance a\n"
                     + "inner join [Session] se on se.sesid= a.sesid\n"
-                    + "where se.gid= ?  and a.stdid = ? and a.present = 0\n"
+                    + "where se.gid= ?  and a.stdid = ? and a.present = 0 and se.attanded = 1\n"
                     + "group by a.present, a.stdid";
 
             PreparedStatement stm = connection.prepareStatement(sql);
