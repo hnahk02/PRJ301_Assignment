@@ -31,9 +31,11 @@ public class LoginController extends HttpServlet {
              if(o.getName().equals("pass")){
                  req.setAttribute("password", o.getValue());
              }
+             if(o.getName().equals("rem")){
+                 req.setAttribute("remember", o.getValue());
+             }
          }
          }
-         
          req.getRequestDispatcher("view/auth/login.jsp").forward(req, resp);
     }
    
@@ -55,17 +57,23 @@ public class LoginController extends HttpServlet {
             
             Cookie user= new Cookie("username", username);
             Cookie pass = new Cookie("password", password);
+            Cookie rem = new Cookie("remember", remember);
             
-            user.setMaxAge(2592000);
             if(remember != null){
-                 pass.setMaxAge(2592000);
+                 user.setMaxAge(60*60*24*7);
+                 pass.setMaxAge(60*60*24*7);
+                 rem.setMaxAge(60*60*24*7);
+                
             }else{
+                  user.setMaxAge(0);
                  pass.setMaxAge(0);
+                 rem.setMaxAge(0);
             }
           
            
             resp.addCookie(user);
             resp.addCookie(pass);
+            resp.addCookie(rem);
             
              resp.sendRedirect("home.jsp");
             

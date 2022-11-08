@@ -3,7 +3,7 @@
     Created on : Oct 29, 2022, 8:10:59 PM
     Author     : Acer
 --%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,13 +24,14 @@
                         <img src="https://fap.fpt.edu.vn/images/play-store.svg" style="width: 120px; height: 40px" alt="google store" /></a></td>
             </tr>
         </table>
+        
         <form action="login" method="POST">
-            Username: <input type="text" value="${username}" name="username"><br>
-            Password: <input type="password" value="${password}" name="password"><br>
-            Remember me:<input type="checkbox" value="1" name="remember" >
+            Username: <input type="text"  name="username" value="${requestScope.remember}"><br>
+            Password: <input type="password"  name="password" value="${requestScope.password}"><br>
+            Remember me:<input type="checkbox" ${requestScope.remember!=null?'checked':''} value="on" name="remember" >
 
             <input type="submit" value="Login">
             <p style="color:red;">${alert}</p>
-        </form>z
+        </form>
     </body>
 </html>

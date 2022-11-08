@@ -43,7 +43,7 @@
                 <h1> Activities</h1>
                         <a  href="lecturer/lecturertimetable?username=${sessionScope.account.username}">View Lecturer Timetable</a><br><br><br>
                         <a  href="lecturer/viewattendreport?username=${sessionScope.account.username}&term_id=0&gid=0">View attendance report of group</a><br><br><br>
-                        <a  href="lecturer/viewgroup?username=${sessionScope.account.username}">View group attandance</a><br>
+                        <a  href="lecturer/viewgroup?username=${sessionScope.account.username}">Take group attendance</a><br>
 
 
             </c:if> 

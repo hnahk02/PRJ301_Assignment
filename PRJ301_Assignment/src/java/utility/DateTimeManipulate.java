@@ -95,4 +95,13 @@ public class DateTimeManipulate {
          System.out.println(a + " " + b +" " +e_a.compareTo(e_b));
         return e_a.compareTo(e_b);
     }
+    
+       public static int compareCurrentDate(java.sql.Date a)
+    {
+        java.util.Date today = new Date();
+        today = removeTime(today);
+        Date e_a = toDateUtil(a);
+        int result = e_a.compareTo(today);
+        return result ;
+    }
 }

@@ -4,6 +4,7 @@
     Author     : Acer
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="utility" class="utility.DateTimeManipulate"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,12 +58,20 @@
                     <td> ${ses.date}</td>
                     <td> ${ses.group.gname}</td>
                     <td> 
-                        <c:if test="${ses.attanded}">
-                            Taken  &nbsp;<a href="takeattend?sesid=${ses.sesid}">Edit</a><br>
+                        <c:if test="${utility.compareCurrentDate(ses.date) ne 0}">
+                            &nbsp;&nbsp;<span style="color: red">Close</span>
+                            
                         </c:if>
-                        <c:if test="${!ses.attanded}">
-                            &nbsp;&nbsp;&nbsp; <a href="takeattend?sesid=${ses.sesid}">Take</a><br>
+                        <c:if test="${utility.compareCurrentDate(ses.date) eq 0}">
+                            <c:if test="${!ses.attanded}">
+                                &nbsp;&nbsp; <a href="takeattend?sesid=${ses.sesid}">Take</a><br>
+                            </c:if>
+                            <c:if test="${ses.attanded}">
+                                Taken &nbsp; <a href="takeattend?sesid=${ses.sesid}">Edit</a><br>
+                            </c:if>
+                                
                         </c:if>
+                       
                     </td>
 
                 </tr>
