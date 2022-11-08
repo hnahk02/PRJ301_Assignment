@@ -52,7 +52,7 @@ public class TermDBContext extends DBContext<Term> {
     }
     
    
-    @Override
+    
     public Term get(int id) {
          
         try {
